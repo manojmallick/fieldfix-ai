@@ -18,5 +18,5 @@ export function getGeminiModelName(): string {
 }
 
 export function getGeminiFallbackModelName(): string {
-  return process.env.GEMINI_FALLBACK_MODEL || 'gemini-1.5-pro';
+  return process.env.GEMINI_FALLBACK_MODEL || 'gemini-1.5-pro-latest';
 }
