@@ -54,7 +54,15 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+    // Verify session exists to avoid foreign key violations
+    const sessionRecord = await prisma.session.findUnique({ where: { id: sessionId } });
+    if (!sessionRecord) {
+      return NextResponse.json(
+        { error: 'Session not found' },
+        { status: 404 }
+      );
+    }
+
     // Log event
     await prisma.event.create({
       data: {
