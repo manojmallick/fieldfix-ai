@@ -34,7 +34,7 @@ export default async function QAPage({ params }: PageProps) {
           <p className="text-gray-600 dark:text-gray-400 mb-4">
             This demo uses ephemeral storage on Vercel, so the session may have been cleared.
           </p>
-          <Link href="/live" className="btn-secondary">
+          <Link href="/live?mode=demo&scenario=scenario3" className="btn-secondary">
             Start a new demo
           </Link>
         </div>
