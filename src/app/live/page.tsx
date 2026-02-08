@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Scenario {
   id: string;
@@ -37,12 +37,35 @@ const SCENARIOS: Scenario[] = [
 
 export default function LivePage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [selectedScenario, setSelectedScenario] = useState<Scenario>(SCENARIOS[0]);
   const [isRunning, setIsRunning] = useState(false);
   const [status, setStatus] = useState('');
   const [error, setError] = useState('');
+  const autoRunStarted = useRef(false);
+  const selectedScenarioRef = useRef<Scenario>(SCENARIOS[0]);
+    // Helper to update scenario param in URL
+    const updateScenarioInUrl = (scenarioId: string, mode?: string) => {
+      const params = new URLSearchParams(window.location.search);
+      params.set('scenario', scenarioId);
+      if (mode) params.set('mode', mode);
+      router.replace(`?${params.toString()}`);
+    };
 
-  const runFullDemo = async () => {
+  const runFullDemo = useCallback(async (scenarioOverride?: Scenario) => {
+    const scenarioParam = searchParams.get('scenario');
+    const scenarioFromParam = scenarioParam
+      ? SCENARIOS.find((item) => item.id === scenarioParam)
+      : null;
+    const scenario =
+      scenarioOverride ?? scenarioFromParam ?? selectedScenarioRef.current ?? SCENARIOS[0];
+
+    if (!scenario?.id || !scenario.userDescription) {
+      setError('Scenario data is missing. Please refresh and try again.');
+      return;
+    }
+      // Update URL with scenario and mode=demo
+      updateScenarioInUrl(scenario.id, 'demo');
     setIsRunning(true);
     setError('');
     
@@ -53,8 +76,8 @@ export default function LivePage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          scenario: selectedScenario.id,
-          userDescription: selectedScenario.userDescription,
+          scenario: scenario.id,
+          userDescription: scenario.userDescription,
         }),
       });
       
@@ -72,7 +95,7 @@ export default function LivePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           sessionId,
-          imagePath: selectedScenario.imagePath,
+          imagePath: scenario.imagePath,
         }),
       });
       
@@ -89,7 +112,7 @@ export default function LivePage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          query: selectedScenario.kbQuery,
+          query: scenario.kbQuery,
           maxResults: 10,
           sessionId,
         }),
@@ -161,7 +184,34 @@ export default function LivePage() {
       setError(err instanceof Error ? err.message : 'An error occurred');
       setIsRunning(false);
     }
-  };
+  }, [router, searchParams]);
+
+  useEffect(() => {
+    selectedScenarioRef.current = selectedScenario;
+  }, [selectedScenario]);
+
+  useEffect(() => {
+    const scenarioParam = searchParams.get('scenario');
+    if (!scenarioParam) return;
+
+    const match = SCENARIOS.find((scenario) => scenario.id === scenarioParam);
+    if (match) {
+      setSelectedScenario(match);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    const scenarioParam = searchParams.get('scenario');
+    const demoMode = searchParams.get('mode') === 'demo';
+
+    if (!demoMode || !scenarioParam || autoRunStarted.current) return;
+
+    const match = SCENARIOS.find((scenario) => scenario.id === scenarioParam);
+    if (!match) return;
+
+    autoRunStarted.current = true;
+    runFullDemo(match);
+  }, [runFullDemo, searchParams]);
 
   return (
     <div className="container py-8">
@@ -175,7 +225,10 @@ export default function LivePage() {
             {SCENARIOS.map((scenario) => (
               <button
                 key={scenario.id}
-                onClick={() => setSelectedScenario(scenario)}
+                onClick={() => {
+                  setSelectedScenario(scenario);
+                  updateScenarioInUrl(scenario.id);
+                }}
                 className={`p-4 border-2 rounded-lg text-left transition-all ${
                   selectedScenario.id === scenario.id
                     ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20'
@@ -202,7 +255,7 @@ export default function LivePage() {
           </div>
           
           <button
-            onClick={runFullDemo}
+            onClick={() => runFullDemo()}
             disabled={isRunning}
             className="btn w-full md:w-auto"
           >
