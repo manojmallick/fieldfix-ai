@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
+import { ensureSqliteSchema, prisma } from '@/lib/db';
 import { geminiJsonFromText } from '@/lib/gemini/calls';
 import { PLAN_PROMPT, FIX_JSON_PROMPT } from '@/lib/prompts';
 import { PlanSchema } from '@/lib/schemas/plan.schema';
@@ -12,6 +12,7 @@ export async function POST(request: NextRequest) {
   let zodPassed = false;
   
   try {
+    await ensureSqliteSchema();
     const body = await request.json();
     const { sessionId, observationId, kbResults } = body;
     

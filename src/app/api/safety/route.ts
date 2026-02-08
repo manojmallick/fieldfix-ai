@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
+import { ensureSqliteSchema, prisma } from '@/lib/db';
 import { runSafetyRules } from '@/lib/safety/rules';
 import { PlanStep } from '@/lib/schemas/plan.schema';
 
 export async function POST(request: NextRequest) {
   try {
+    await ensureSqliteSchema();
     const body = await request.json();
     const { sessionId, planId } = body;
     

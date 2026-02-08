@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
+import { ensureSqliteSchema, prisma } from '@/lib/db';
 import { geminiVisionJson } from '@/lib/gemini/calls';
 import { fileToInlineDataPart } from '@/lib/gemini/parts';
 import { VISION_PROMPT, FIX_JSON_PROMPT } from '@/lib/prompts';
@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
   let usedMockData = false;
   
   try {
+    await ensureSqliteSchema();
     const body = await request.json();
     const { sessionId, imagePath } = body;
     
