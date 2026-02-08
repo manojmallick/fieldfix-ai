@@ -18,33 +18,43 @@ export async function POST(request: NextRequest) {
     
     // Store KB snapshots if sessionId provided
     if (sessionId) {
-      // Clear old snapshots for this session
-      await prisma.kBSnapshot.deleteMany({ 
-        where: { sessionId } 
-      });
-      
-      // Store new snapshots
-      if (results.length > 0) {
-        await prisma.kBSnapshot.createMany({
-          data: results.map((r) => ({
+      try {
+        // Clear old snapshots for this session
+        await prisma.kBSnapshot.deleteMany({ where: { sessionId } });
+
+        // Store new snapshots
+        if (results.length > 0) {
+          await prisma.kBSnapshot.createMany({
+            data: results.map((r) => ({
+              sessionId,
+              source: r.source,
+              kbId: r.id,
+              title: r.title,
+              snippet: r.snippet,
+              raw: JSON.stringify(r),
+            })),
+          });
+        }
+
+        // Log KB search event
+        await prisma.event.create({
+          data: {
             sessionId,
-            source: r.source,
-            kbId: r.id,
-            title: r.title,
-            snippet: r.snippet,
-            raw: JSON.stringify(r),
-          })),
+            eventType: 'KB_SEARCH_DONE',
+            data: JSON.stringify({ hits: results.length }),
+          },
         });
+      } catch (err) {
+        // If the KBSnapshot table doesn't exist yet (migrations not applied),
+        // ignore and continue so the demo flow doesn't crash. The proper fix
+        // is to apply Prisma migrations to the database.
+        const e = err as { code?: string };
+        if (e?.code === 'P2021') {
+          console.warn('KBSnapshot table missing; skipping snapshot persistence');
+        } else {
+          throw err;
+        }
       }
-      
-      // Log KB search event
-      await prisma.event.create({
-        data: {
-          sessionId,
-          eventType: 'KB_SEARCH_DONE',
-          data: JSON.stringify({ hits: results.length }),
-        },
-      });
     }
     
     return NextResponse.json({ results });
