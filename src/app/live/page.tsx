@@ -1,7 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+
+import ScenarioGallery from '@/components/ScenarioGallery';
 
 interface Scenario {
   id: string;
@@ -37,6 +39,7 @@ const SCENARIOS: Scenario[] = [
 
 export default function LivePage() {
   const router = useRouter();
+  const urlSearchParams = useSearchParams();
   // Use a client-side URLSearchParams instead of next/navigation's useSearchParams
   // to avoid the CSR bailout warning on server-render.
   const [searchParams, setSearchParams] = useState(() => {
@@ -200,6 +203,11 @@ export default function LivePage() {
   }, [selectedScenario]);
 
   useEffect(() => {
+    if (!urlSearchParams) return;
+    setSearchParams(new URLSearchParams(urlSearchParams.toString()));
+  }, [urlSearchParams]);
+
+  useEffect(() => {
     const scenarioParam = searchParams.get('scenario');
     if (!scenarioParam) return;
 
@@ -233,6 +241,10 @@ export default function LivePage() {
     <div className="container py-8">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl font-bold mb-6">Live Demo</h2>
+
+        <div className="mb-6">
+          <ScenarioGallery />
+        </div>
         
         <div className="card mb-6">
           <h3 className="text-xl font-semibold mb-4">Select Scenario</h3>

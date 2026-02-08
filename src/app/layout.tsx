@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -17,8 +19,10 @@ export default function RootLayout({
         <div className="min-h-screen flex flex-col">
           <header className="bg-blue-600 text-white shadow-md">
             <div className="container py-4">
-              <h1 className="text-2xl font-bold">FieldFix AI</h1>
-              <p className="text-blue-100 text-sm">Powered by Gemini</p>
+              <Link href="/live" className="inline-flex flex-col">
+                <span className="text-2xl font-bold">FieldFix AI</span>
+                <span className="text-blue-100 text-sm">Powered by Gemini</span>
+              </Link>
             </div>
           </header>
           <main className="flex-1">
