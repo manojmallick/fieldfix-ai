@@ -1,0 +1,7 @@
+{
+  "steps": [
+    { "stepNumber": 1, "action": "Isolate generator and verify battery connections.", "duration": 20, "citations": ["KB10"] },
+    { "stepNumber": 2, "action": "Inspect starter circuit and clean corroded terminals.", "duration": 30, "citations": ["KB11"] },
+    { "stepNumber": 3, "action": "Attempt restart and log performance data.", "duration": 15, "citations": ["KB12"] }
+  ]
+}

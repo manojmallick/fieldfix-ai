@@ -1,0 +1,7 @@
+{
+  "steps": [
+    { "stepNumber": 1, "action": "Shut down HVAC power and lock out circuit.", "duration": 10, "citations": ["KB1"] },
+    { "stepNumber": 2, "action": "Inspect and replace clogged air filter and clean condenser coils.", "duration": 45, "citations": ["KB2"] },
+    { "stepNumber": 3, "action": "Run startup test, verify airflow and monitor temperatures.", "duration": 20, "citations": ["KB3"] }
+  ]
+}

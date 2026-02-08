@@ -1,0 +1,7 @@
+{
+  "steps": [
+    { "stepNumber": 1, "action": "Isolate electrical supply and lock out equipment.", "duration": 15, "citations": ["KB20"] },
+    { "stepNumber": 2, "action": "Repair/replace damaged wiring and secure junction box.", "duration": 60, "citations": ["KB21"] },
+    { "stepNumber": 3, "action": "Replace pump seal and test for leaks before re-energizing.", "duration": 45, "citations": ["KB22"] }
+  ]
+}
