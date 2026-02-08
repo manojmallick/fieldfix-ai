@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ensureSqliteSchema, prisma } from '@/lib/db';
+import { ensureSqliteSchema } from '@/lib/db';
+import { prisma } from '@/lib/store/db';
 import { geminiVisionJson } from '@/lib/gemini/calls';
 import { fileToInlineDataPart } from '@/lib/gemini/parts';
 import { VISION_PROMPT, FIX_JSON_PROMPT } from '@/lib/prompts';

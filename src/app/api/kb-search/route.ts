@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { searchKB } from '@/lib/kb/search';
-import { prisma } from '@/lib/db';
+import { prisma } from '@/lib/store/db';
 
 export async function POST(request: NextRequest) {
   try {

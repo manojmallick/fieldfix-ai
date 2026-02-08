@@ -1,4 +1,5 @@
-import { ensureSqliteSchema, prisma } from '@/lib/db';
+import { ensureSqliteSchema } from '@/lib/db';
+import { prisma } from '@/lib/store/db';
 import Link from 'next/link';
 
 interface PageProps {

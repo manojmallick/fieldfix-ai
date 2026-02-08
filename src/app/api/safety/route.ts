@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ensureSqliteSchema, prisma } from '@/lib/db';
+import { ensureSqliteSchema } from '@/lib/db';
+import { prisma } from '@/lib/store/db';
 import { runSafetyRules } from '@/lib/safety/rules';
 import { PlanStep } from '@/lib/schemas/plan.schema';
 
