@@ -33,9 +33,23 @@ export default async function SessionPage({ params }: PageProps) {
           <p className="text-gray-600 dark:text-gray-400 mb-4">
             This demo uses ephemeral storage on Vercel, so the session may have been cleared.
           </p>
-          <Link href="/live?mode=demo&scenario=scenario3" className="btn-secondary">
-            Start a new demo
-          </Link>
+          <div className="mb-4">
+            <p className="mb-2">Start a new demo (choose a scenario):</p>
+            <div className="flex gap-2 flex-wrap">
+              <Link href="/live?mode=demo&scenario=scenario1" className="btn-secondary">
+                Overheating HVAC Unit
+              </Link>
+              <Link href="/live?mode=demo&scenario=scenario2" className="btn-secondary">
+                Generator Malfunction
+              </Link>
+              <Link href="/live?mode=demo&scenario=scenario3" className="btn-secondary">
+                Water Pump Failure (Hazard)
+              </Link>
+              <Link href="/live?mode=demo" className="btn-secondary">
+                Start default demo
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     );
