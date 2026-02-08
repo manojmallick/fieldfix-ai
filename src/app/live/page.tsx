@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 interface Scenario {
   id: string;
@@ -37,7 +37,12 @@ const SCENARIOS: Scenario[] = [
 
 export default function LivePage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  // Use a client-side URLSearchParams instead of next/navigation's useSearchParams
+  // to avoid the CSR bailout warning on server-render.
+  const [searchParams, setSearchParams] = useState(() => {
+    if (typeof window === 'undefined') return new URLSearchParams('');
+    return new URLSearchParams(window.location.search);
+  });
   const [selectedScenario, setSelectedScenario] = useState<Scenario>(SCENARIOS[0]);
   const [isRunning, setIsRunning] = useState(false);
   const [status, setStatus] = useState('');
@@ -50,6 +55,7 @@ export default function LivePage() {
       params.set('scenario', scenarioId);
       if (mode) params.set('mode', mode);
       router.replace(`?${params.toString()}`);
+      setSearchParams(params);
     };
 
   const runFullDemo = useCallback(async (scenarioOverride?: Scenario) => {
@@ -212,6 +218,13 @@ export default function LivePage() {
     autoRunStarted.current = true;
     runFullDemo(match);
   }, [runFullDemo, searchParams]);
+
+  // Keep searchParams state in sync with browser navigation (back/forward)
+  useEffect(() => {
+    const onPop = () => setSearchParams(new URLSearchParams(window.location.search));
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
 
   return (
     <div className="container py-8">
