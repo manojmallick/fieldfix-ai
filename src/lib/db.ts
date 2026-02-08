@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const databaseUrl = process.env.DATABASE_URL;
+const databaseUrl = process.env.DATABASE_URL ?? '';
 
 if (!databaseUrl) {
   throw new Error('DATABASE_URL is not set. For Vercel + SQLite, use file:/tmp/fieldfix.db');
