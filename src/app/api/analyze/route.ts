@@ -6,9 +6,17 @@ import { VISION_PROMPT, FIX_JSON_PROMPT } from '@/lib/prompts';
 import { ObservationSchema } from '@/lib/schemas/observation.schema';
 import { safeJsonParse } from '@/lib/utils/json';
 import path from 'path';
+import fs from 'node:fs';
+
+interface ObservationData {
+  equipmentType: string;
+  problemSummary: string;
+  riskFlags: string[];
+  environmentalNotes?: string;
+}
 
 // Mock observation data for when images are missing
-const MOCK_OBSERVATIONS: Record<string, any> = {
+const MOCK_OBSERVATIONS: Record<string, ObservationData> = {
   'scenario1': {
     equipmentType: 'Commercial HVAC Air Conditioning Unit',
     problemSummary: 'Unit showing signs of overheating with reduced airflow. Visible dirt buildup on condenser coils and air filter appears clogged. Fan motor running but airflow significantly reduced.',
@@ -61,11 +69,11 @@ export async function POST(request: NextRequest) {
       data: { status: 'analyzing' },
     });
     
-    let observationData;
+    let observationData: ObservationData;
     
     // Try to use real image analysis, fallback to mock data if image missing or API fails
     const fullPath = path.join(process.cwd(), 'public', imagePath);
-    const imageExists = require('fs').existsSync(fullPath);
+    const imageExists = fs.existsSync(fullPath);
     
     if (!imageExists) {
       console.log(`Image not found at ${fullPath}, using mock data`);
@@ -87,7 +95,7 @@ export async function POST(request: NextRequest) {
         
         // Call Gemini with retry logic
         let responseText = await geminiVisionJson(VISION_PROMPT, imagePart);
-        let parsed = safeJsonParse(responseText);
+        let parsed = safeJsonParse<ObservationData>(responseText);
         let attempt = 1;
         
         // Retry once if parsing fails
@@ -98,7 +106,7 @@ export async function POST(request: NextRequest) {
             FIX_JSON_PROMPT(responseText, VISION_PROMPT),
             imagePart
           );
-          parsed = safeJsonParse(responseText);
+          parsed = safeJsonParse<ObservationData>(responseText);
           attempt++;
         }
         

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
+  void _request;
   // Check if demo mode is enabled
   const demoOnly = process.env.DEMO_ONLY === '1';
   

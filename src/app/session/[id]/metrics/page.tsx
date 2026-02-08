@@ -81,6 +81,9 @@ export default async function MetricsPage({ params }: PageProps) {
         
         {/* Session Nav */}
         <div className="flex flex-wrap gap-2 mb-6">
+          <a className="btn-secondary" href={`/api/sessions/${id}/export`}>
+            Export Evidence Pack
+          </a>
           <Link href={`/session/${id}`} className="btn-secondary">
             Overview
           </Link>

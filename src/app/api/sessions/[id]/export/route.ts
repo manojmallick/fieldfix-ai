@@ -8,7 +8,7 @@ export async function GET(
   try {
     await ensureSqliteSchema();
     const { id } = await params;
-    
+
     const session = await prisma.session.findUnique({
       where: { id },
       include: {
@@ -25,35 +25,29 @@ export async function GET(
         },
       },
     });
-    
+
     if (!session) {
-      return NextResponse.json(
-        { error: 'Session not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'not_found' }, { status: 404 });
     }
 
-    const qaEvent = [...session.events]
-      .reverse()
-      .find((event) => event.eventType === 'QA_DONE');
-    let qa = null;
+    const payload = {
+      exportedAt: new Date().toISOString(),
+      version: '1.0',
+      sessionId: id,
+      data: session,
+    };
 
-    if (qaEvent?.data) {
-      try {
-        qa = JSON.parse(qaEvent.data as string);
-      } catch (parseError) {
-        console.error('Error parsing QA event data:', parseError);
-      }
-    }
-    
-    return NextResponse.json({
-      ...session,
-      qa,
+    return new NextResponse(JSON.stringify(payload, null, 2), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Disposition': `attachment; filename="fieldfix_${id}.json"`,
+      },
     });
   } catch (error) {
-    console.error('Error fetching session:', error);
+    console.error('Error exporting session:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch session' },
+      { error: 'Failed to export session' },
       { status: 500 }
     );
   }

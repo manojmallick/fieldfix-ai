@@ -1,4 +1,4 @@
-import { getAllKBData, Manual, Runbook, Incident } from './dataset';
+import { getAllKBData } from './dataset';
 
 export interface KBSearchResult {
   id: string;
@@ -125,6 +125,6 @@ export function formatKBResultsForPrompt(results: KBSearchResult[]): string {
   }
   
   return results
-    .map((r, i) => `[${r.id}] ${r.title} (${r.source})\n${r.snippet}`)
+    .map((r) => `[${r.id}] ${r.title} (${r.source})\n${r.snippet}`)
     .join('\n\n');
 }
