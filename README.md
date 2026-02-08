@@ -171,6 +171,15 @@ GEMINI_API_KEY=your_api_key
 GEMINI_MODEL=gemini-3-flash-preview
 DATABASE_URL="file:./dev.db"
 DEMO_ONLY=1
+NEXT_PUBLIC_BASE_URL=https://fieldfix-ai.vercel.app
+```
+
+### Live Demo
+
+One-click demo URL:
+
+```
+https://fieldfix-ai.vercel.app/live?mode=demo
 ```
 
 ### Deploy
