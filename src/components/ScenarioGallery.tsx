@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const SCENARIOS = [
@@ -38,7 +38,6 @@ const toneBadge: Record<string, string> = {
 
 export default function ScenarioGallery() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const [activeScenario, setActiveScenario] = useState<Scenario | null>(null);
 
@@ -52,7 +51,9 @@ export default function ScenarioGallery() {
   }, [isOpen]);
 
   const runScenario = (scenario: Scenario) => {
-    const params = new URLSearchParams(searchParams?.toString() ?? '');
+    const params = new URLSearchParams(
+      typeof window === 'undefined' ? '' : window.location.search
+    );
     params.set('mode', 'demo');
     params.set('scenario', scenario.key);
     router.push(`/live?${params.toString()}`);

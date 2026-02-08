@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import ScenarioGallery from '@/components/ScenarioGallery';
 
@@ -39,7 +39,6 @@ const SCENARIOS: Scenario[] = [
 
 export default function LivePage() {
   const router = useRouter();
-  const urlSearchParams = useSearchParams();
   // Use a client-side URLSearchParams instead of next/navigation's useSearchParams
   // to avoid the CSR bailout warning on server-render.
   const [searchParams, setSearchParams] = useState(() => {
@@ -201,11 +200,6 @@ export default function LivePage() {
   useEffect(() => {
     selectedScenarioRef.current = selectedScenario;
   }, [selectedScenario]);
-
-  useEffect(() => {
-    if (!urlSearchParams) return;
-    setSearchParams(new URLSearchParams(urlSearchParams.toString()));
-  }, [urlSearchParams]);
 
   useEffect(() => {
     const scenarioParam = searchParams.get('scenario');
