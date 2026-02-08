@@ -16,3 +16,7 @@ export function getGeminiClient(): GoogleGenerativeAI {
 export function getGeminiModelName(): string {
   return process.env.GEMINI_MODEL || 'gemini-3-flash-preview';
 }
+
+export function getGeminiFallbackModelName(): string {
+  return process.env.GEMINI_FALLBACK_MODEL || 'gemini-1.5-pro';
+}

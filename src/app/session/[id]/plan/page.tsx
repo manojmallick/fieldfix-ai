@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/db';
+import { ensureSqliteSchema, prisma } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { PlanStep } from '@/lib/schemas/plan.schema';
@@ -10,6 +10,8 @@ interface PageProps {
 
 export default async function PlanPage({ params }: PageProps) {
   const { id } = await params;
+
+  await ensureSqliteSchema();
   
   const session = await prisma.session.findUnique({
     where: { id },
