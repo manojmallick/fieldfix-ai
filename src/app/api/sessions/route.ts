@@ -15,13 +15,26 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    const session = await prisma.session.create({
-      data: {
-        scenario,
-        userDescription,
-        status: 'created',
-      },
-    });
+    let session;
+    try {
+      session = await prisma.session.create({
+        data: {
+          scenario,
+          userDescription,
+          status: 'created',
+        },
+      });
+    } catch (err) {
+      const e = err as { code?: string };
+      if (e?.code === 'P2021') {
+        console.error('Prisma table missing:', err);
+        return NextResponse.json(
+          { error: 'Database not migrated. Run prisma migrate deploy or set up DATABASE_URL.' },
+          { status: 503 }
+        );
+      }
+      throw err;
+    }
     
     // Log event
     await prisma.event.create({
