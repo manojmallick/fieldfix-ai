@@ -1,0 +1,6 @@
+provider = "postgresql"
+
+[[migrations]]
+  id = "20260208000000_init"
+  checksum = "init"
+  folder = "20260208000000_init"
