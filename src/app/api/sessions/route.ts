@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
+import { ensureSqliteSchema, prisma } from '@/lib/db';
 
 export async function POST(request: NextRequest) {
   try {
+    await ensureSqliteSchema();
     const body = await request.json();
     const { scenario, userDescription } = body;
     
