@@ -1,5 +1,4 @@
 import { ensureSqliteSchema, prisma } from '@/lib/db';
-import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { PlanStep } from '@/lib/schemas/plan.schema';
 
@@ -22,7 +21,19 @@ export default async function QAPage({ params }: PageProps) {
   });
   
   if (!session) {
-    notFound();
+    return (
+      <div className="container py-8">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl font-bold mb-4">Session expired</h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            This demo uses ephemeral storage on Vercel, so the session may have been cleared.
+          </p>
+          <Link href="/live" className="btn-secondary">
+            Start a new demo
+          </Link>
+        </div>
+      </div>
+    );
   }
   
   const plan = session.plans[0];
