@@ -1,0 +1,11 @@
+{
+  "env": {
+    "DEMO_ONLY": "1"
+  },
+  "build": {
+    "env": {
+      "PRISMA_GENERATE_SKIP_POSTINSTALL": "1"
+    }
+  },
+  "buildCommand": "prisma generate && next build"
+}

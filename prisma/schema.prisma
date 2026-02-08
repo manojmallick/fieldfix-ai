@@ -1,0 +1,108 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id              String      @id @default(cuid())
+  scenario        String
+  userDescription String
+  status          String      @default("created") // created, analyzing, planning, complete, error
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  media         Media[]
+  observations  Observation[]
+  plans         Plan[]
+  safetyChecks  SafetyCheck[]
+  workOrders    WorkOrder[]
+  events        Event[]
+  kbSnapshots   KBSnapshot[]
+}
+
+model Media {
+  id         String   @id @default(cuid())
+  sessionId  String
+  filePath   String
+  mimeType   String   @default("image/jpeg")
+  uploadedAt DateTime @default(now())
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model Observation {
+  id                String   @id @default(cuid())
+  sessionId         String
+  equipmentType     String
+  problemSummary    String
+  riskFlags         String   // JSON array
+  environmentalNotes String?
+  createdAt         DateTime @default(now())
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model Plan {
+  id          String   @id @default(cuid())
+  sessionId   String
+  steps       String   // JSON array with citations
+  kbResultsUsed String // JSON array of KB IDs used
+  createdAt   DateTime @default(now())
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model SafetyCheck {
+  id               String   @id @default(cuid())
+  sessionId        String
+  pass             Boolean
+  ppeRequired      String   // JSON array
+  hazards          String   // JSON array
+  requiredPresteps String   // JSON array
+  createdAt        DateTime @default(now())
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model WorkOrder {
+  id              String   @id @default(cuid())
+  sessionId       String
+  workOrderNumber String   @unique
+  summary         String
+  parts           String   // JSON array
+  estimatedTime   Int      // minutes
+  createdAt       DateTime @default(now())
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model Event {
+  id        String   @id @default(cuid())
+  sessionId String
+  eventType String   // SESSION_CREATED, ANALYZE_START, ANALYZE_DONE, PLAN_START, PLAN_READY, SAFETY_DONE, WO_CREATED
+  timestamp DateTime @default(now())
+  data      String?  // optional JSON metadata
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model KBSnapshot {
+  id        String   @id @default(cuid())
+  sessionId String
+  createdAt DateTime @default(now())
+  
+  source    String   // "manual" | "runbook" | "incident"
+  kbId      String   // e.g. "KB8"
+  title     String
+  snippet   String
+  raw       String   // JSON stored as string - full matched object
+  
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  
+  @@index([sessionId])
+  @@index([kbId])
+}

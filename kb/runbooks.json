@@ -1,0 +1,30 @@
+[
+  {
+    "id": "KB8",
+    "title": "HVAC Emergency Shutdown",
+    "procedure": "1. Turn off power at breaker panel. 2. Close refrigerant valves if accessible. 3. Document fault codes from controller. 4. Check for refrigerant leaks. 5. Inspect electrical connections for burn marks. 6. Test capacitors with multimeter.",
+    "equipment": ["HVAC", "Air Conditioning", "Cooling System"],
+    "keywords": ["emergency", "shutdown", "hvac", "troubleshooting"]
+  },
+  {
+    "id": "KB9",
+    "title": "Generator Pre-Start Checklist",
+    "procedure": "1. Check oil level (add if low). 2. Verify fuel level and quality. 3. Inspect battery voltage and connections. 4. Test emergency stop button. 5. Check coolant level. 6. Verify air filter is clean. 7. Start with no load, check for unusual sounds.",
+    "equipment": ["Generator", "Backup Power"],
+    "keywords": ["generator", "startup", "checklist", "maintenance"]
+  },
+  {
+    "id": "KB10",
+    "title": "Lockout/Tagout Procedure",
+    "procedure": "1. Notify all affected personnel. 2. Identify all energy sources. 3. Shut down equipment normally. 4. Isolate energy sources (switches, valves). 5. Apply locks and tags. 6. Release stored energy (capacitors, springs, pressure). 7. Verify zero energy with test instruments.",
+    "equipment": ["All Equipment"],
+    "keywords": ["safety", "lockout", "tagout", "electrical", "isolation"]
+  },
+  {
+    "id": "KB11",
+    "title": "Motor Overheating Diagnosis",
+    "procedure": "1. Measure motor current draw. 2. Check for blocked airflow or dirty cooling fins. 3. Verify correct voltage at motor terminals. 4. Test capacitor if single-phase motor. 5. Check for mechanical binding in driven equipment. 6. Measure winding resistance for shorts.",
+    "equipment": ["Electric Motor", "Pump Motor", "Fan Motor"],
+    "keywords": ["motor", "overheating", "diagnosis", "electrical", "troubleshooting"]
+  }
+]

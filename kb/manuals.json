@@ -1,0 +1,52 @@
+[
+  {
+    "id": "KB1",
+    "title": "HVAC System Maintenance Manual",
+    "equipment": "Air Conditioning Unit",
+    "content": "Regular maintenance of HVAC systems includes checking air filters, inspecting condenser coils, verifying refrigerant levels, and testing thermostat calibration. Dirty filters reduce airflow and cause overheating. Replace filters every 30-90 days depending on usage. Clean condenser coils annually to maintain efficient heat transfer.",
+    "keywords": ["hvac", "air conditioning", "filter", "maintenance", "overheating", "condenser", "airflow"]
+  },
+  {
+    "id": "KB2",
+    "title": "Generator Starting Systems",
+    "equipment": "Backup Generator",
+    "content": "Generator starting failures commonly result from dead batteries, fuel system issues, or faulty starter motors. Check battery voltage (should be 12.6V or higher), inspect fuel lines for blockages, verify fuel quality, and test starter solenoid operation. Keep battery terminals clean and tight.",
+    "keywords": ["generator", "starting", "battery", "fuel", "electrical", "backup power"]
+  },
+  {
+    "id": "KB3",
+    "title": "Electrical Safety Procedures",
+    "equipment": "All Electrical Equipment",
+    "content": "Before working on any electrical equipment, follow Lockout/Tagout procedures. De-energize circuits, verify zero voltage with a meter, and apply locks. When working near water or in wet conditions, ensure power is completely isolated. Use insulated tools and wear appropriate PPE including insulated gloves and safety glasses.",
+    "keywords": ["electrical", "safety", "lockout", "tagout", "ppe", "insulated gloves", "water hazard"]
+  },
+  {
+    "id": "KB4",
+    "title": "Water Pump Repair Guide",
+    "equipment": "Industrial Water Pump",
+    "content": "Common water pump failures include motor burnout, seal leakage, and impeller damage. Before repairs, shut off power and drain the system. Check for water damage to electrical components. Replace motor if windings show signs of moisture damage. Inspect pump housing for cracks and replace seals if leaking.",
+    "keywords": ["water pump", "motor", "seal", "leakage", "impeller", "repair"]
+  },
+  {
+    "id": "KB5",
+    "title": "Refrigerant Handling Certification",
+    "equipment": "HVAC Cooling Systems",
+    "content": "Refrigerant work requires EPA certification. Low refrigerant levels indicate a leak that must be repaired before recharging. Use electronic leak detectors to locate leaks. Recover refrigerant using certified equipment before opening the system. When recharging, measure subcooling and superheat to ensure proper charge.",
+    "keywords": ["refrigerant", "hvac", "cooling", "leak", "recharge", "epa"]
+  },
+  {
+    "id": "KB6",
+    "title": "Capacitor Replacement Procedures",
+    "equipment": "Motors and Compressors",
+    "content": "Failed capacitors are a common cause of motor starting failures. Discharge capacitors using a insulated screwdriver across terminals before handling. Check microfarad rating and voltage on the old capacitor and replace with exact match. Wiring errors can damage the motor - verify connections before powering on.",
+    "keywords": ["capacitor", "motor", "compressor", "electrical", "replacement"]
+  },
+  {
+    "id": "KB7",
+    "title": "Incident Report: Water Damage",
+    "equipment": "Industrial Pump",
+    "problem": "Water pump failure caused flooding near electrical panel",
+    "resolution": "Isolated power immediately. Drained water, dried electrical components. Replaced pump seals and motor. Installed water sensor alarm system.",
+    "keywords": ["water damage", "flooding", "electrical hazard", "pump failure", "emergency"]
+  }
+]

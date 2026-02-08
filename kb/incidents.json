@@ -1,0 +1,42 @@
+[
+  {
+    "id": "KB12",
+    "title": "HVAC Unit - Reduced Airflow",
+    "problem": "Commercial HVAC unit showed reduced airflow and increased power consumption. Unit was overheating.",
+    "resolution": "Replaced clogged air filter and cleaned condenser coils. Checked refrigerant charge - was slightly low. Located and repaired small refrigerant leak at service valve. Recharged system. Airflow and cooling restored to normal. Recommended quarterly filter changes.",
+    "equipmentType": "HVAC",
+    "keywords": ["hvac", "airflow", "overheating", "filter", "refrigerant"]
+  },
+  {
+    "id": "KB13",
+    "title": "Generator - No Start Condition",
+    "problem": "Emergency generator failed to start during test. Battery voltage was low, fuel system had air.",
+    "resolution": "Replaced battery. Bled air from fuel system. Found fuel shutoff solenoid was sticking. Cleaned and lubricated solenoid. Tested start - successful. Added fuel system cleaner and replaced fuel filters. Recommended monthly test runs.",
+    "equipmentType": "Generator",
+    "keywords": ["generator", "no start", "battery", "fuel", "solenoid"]
+  },
+  {
+    "id": "KB14",
+    "title": "Water Pump - Electrical Fire Hazard",
+    "problem": "Water pump near electrical panel showed signs of water leakage and moisture in junction box. High risk of electrical fire.",
+    "resolution": "Immediately isolated power using Lockout/Tagout. Removed water-damaged junction box and replaced with weatherproof enclosure. Replaced pump mechanical seal. Installed drip shield between pump and electrical panel. Tested for proper operation. Added quarterly inspection schedule.",
+    "equipmentType": "Water Pump",
+    "keywords": ["water pump", "electrical hazard", "fire risk", "safety", "lockout"]
+  },
+  {
+    "id": "KB15",
+    "title": "Compressor - Capacitor Failure",
+    "problem": "Air compressor motor humming but not starting. Motor getting hot.",
+    "resolution": "Measured capacitor - showed near zero microfarads (failed short circuit). Discharged and replaced start capacitor with correct rating. Tested motor operation - started normally. Checked amp draw - within specifications. Provided spare capacitor to customer.",
+    "equipmentType": "Compressor",
+    "keywords": ["compressor", "capacitor", "motor", "startup failure"]
+  },
+  {
+    "id": "KB16",
+    "title": "Exposed Wiring Safety Issue",
+    "problem": "Equipment inspection revealed exposed wiring in control panel. Wires had damaged insulation creating shock hazard.",
+    "resolution": "Applied Lockout/Tagout immediately. Replaced all damaged wire sections with proper gauge wire. Secured wiring with cable ties and protective conduit. Verified all connections tight. Tested for ground faults. Passed final safety inspection.",
+    "equipmentType": "Control Panel",
+    "keywords": ["exposed wires", "safety", "electrical", "insulation", "shock hazard"]
+  }
+]
