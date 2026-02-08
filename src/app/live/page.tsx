@@ -49,14 +49,17 @@ export default function LivePage() {
   const [error, setError] = useState('');
   const autoRunStarted = useRef(false);
   const selectedScenarioRef = useRef<Scenario>(SCENARIOS[0]);
-    // Helper to update scenario param in URL
-    const updateScenarioInUrl = (scenarioId: string, mode?: string) => {
+  // Helper to update scenario param in URL
+  const updateScenarioInUrl = useCallback(
+    (scenarioId: string, mode?: string) => {
       const params = new URLSearchParams(window.location.search);
       params.set('scenario', scenarioId);
       if (mode) params.set('mode', mode);
       router.replace(`?${params.toString()}`);
       setSearchParams(params);
-    };
+    },
+    [router]
+  );
 
   const runFullDemo = useCallback(async (scenarioOverride?: Scenario) => {
     const scenarioParam = searchParams.get('scenario');
@@ -70,8 +73,8 @@ export default function LivePage() {
       setError('Scenario data is missing. Please refresh and try again.');
       return;
     }
-      // Update URL with scenario and mode=demo
-      updateScenarioInUrl(scenario.id, 'demo');
+    // Update URL with scenario and mode=demo
+    updateScenarioInUrl(scenario.id, 'demo');
     setIsRunning(true);
     setError('');
     
@@ -190,7 +193,7 @@ export default function LivePage() {
       setError(err instanceof Error ? err.message : 'An error occurred');
       setIsRunning(false);
     }
-  }, [router, searchParams]);
+  }, [searchParams, updateScenarioInUrl]);
 
   useEffect(() => {
     selectedScenarioRef.current = selectedScenario;

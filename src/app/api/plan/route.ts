@@ -59,7 +59,7 @@ ${observation.environmentalNotes ? `Environment: ${observation.environmentalNote
     // Call Gemini with retry logic (flash model only). If quota 429, use fallback plan file.
     const prompt = PLAN_PROMPT(observationText, kbText);
     let responseText: string | null = null;
-    let parsed: any = null;
+    let parsed: unknown = null;
     let attempt = 1;
     let usedFallback = false;
 
