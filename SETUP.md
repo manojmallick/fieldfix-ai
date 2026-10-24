@@ -27,7 +27,7 @@ npx prisma migrate dev
 npx prisma generate
 ```
 
-This creates the SQLite database and generates the Prisma client.
+This applies the migrations to the PostgreSQL database in `DATABASE_URL` and generates the Prisma client.
 
 ## 4. Add Demo Images
 
@@ -80,7 +80,7 @@ Server runs at http://localhost:3000
 2. Import project in Vercel
 3. Add environment variables:
    - `GEMINI_API_KEY`
-   - `GEMINI_MODEL=gemini-2.0-flash-exp`
+   - `GEMINI_MODEL=gemini-3-flash-preview`
    - `DEMO_ONLY=1`
 4. Deploy
 

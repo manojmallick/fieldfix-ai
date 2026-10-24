@@ -1,6 +1,6 @@
 # FieldFix AI
 
-AI-powered field service equipment analysis and repair planning system. Demonstrates Gemini 2.0 as the core reasoning engine with multimodal analysis, knowledge base retrieval, cited repair plans, safety validation, and automated work order generation.
+AI-powered field service equipment analysis and repair planning system. Demonstrates Google Gemini as the core reasoning engine with multimodal analysis, knowledge base retrieval, cited repair plans, safety validation, and automated work order generation.
 
 ## Features
 
@@ -14,8 +14,8 @@ AI-powered field service equipment analysis and repair planning system. Demonstr
 ## Tech Stack
 
 - **Next.js 15** (App Router) + TypeScript
-- **Gemini 2.0 API** via `@google/generative-ai`
-- **Prisma** + SQLite (local dev)
+- **Google Gemini API** via `@google/generative-ai` (default model `gemini-3-flash-preview`, automatic fallback to `gemini-3-pro-preview`)
+- **Prisma** + PostgreSQL
 - **TailwindCSS** for UI
 - **Zod** for schema validation
 
@@ -24,7 +24,7 @@ AI-powered field service equipment analysis and repair planning system. Demonstr
 ```bash
 npm install
 cp .env.example .env
-npx prisma migrate dev
+npx prisma migrate dev     # needs DATABASE_URL pointing at PostgreSQL (see Setup)
 npm run dev
 ```
 
@@ -42,6 +42,7 @@ Open [http://localhost:3000](http://localhost:3000) and go to `/live`.
 ### Prerequisites
 
 - Node.js 18+ and npm
+- A PostgreSQL database (local, Docker, or a hosted one such as Neon or Vercel Postgres)
 - A Gemini API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
 
 ### Local Development
@@ -65,7 +66,7 @@ Edit `.env` and add your Gemini API key:
 ```
 GEMINI_API_KEY=your_api_key_here
 GEMINI_MODEL=gemini-3-flash-preview
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/fieldfix"
 DEMO_ONLY=0
 ```
 
@@ -101,6 +102,28 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 - Select a scenario
 - Click "Run Full Demo"
 - View results in the session dashboard
+
+### Environment variable reference
+
+| Variable | Required | Description |
+|---|---|---|
+| `GEMINI_API_KEY` | yes | Gemini API key from Google AI Studio |
+| `GEMINI_MODEL` | no | Primary model, default `gemini-3-flash-preview` |
+| `GEMINI_FALLBACK_MODEL` | no | Used if the primary model fails, default `gemini-3-pro-preview` |
+| `DATABASE_URL` | yes | PostgreSQL connection string |
+| `DEMO_ONLY` | no | `1` disables uploads and uses the built-in demo scenarios (set on Vercel) |
+| `NEXT_PUBLIC_BASE_URL` | no | Public base URL of the app, `http://localhost:3000` locally |
+
+### Scripts
+
+| Command | What it does |
+|---|---|
+| `npm run dev` | Dev server on `http://localhost:3000` |
+| `npm run build` / `npm start` | Production build and server |
+| `npm run lint` | Next.js lint |
+| `npx prisma migrate dev` | Apply migrations in development |
+| `npx prisma migrate deploy` | Apply migrations in production |
+| `node scripts/create-placeholders.js` | Create placeholder demo images |
 
 ## Demo Mode
 
@@ -169,7 +192,7 @@ Set these in Vercel project settings:
 ```
 GEMINI_API_KEY=your_api_key
 GEMINI_MODEL=gemini-3-flash-preview
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/fieldfix"
 DEMO_ONLY=1
 NEXT_PUBLIC_BASE_URL=https://fieldfix-ai.vercel.app
 ```
@@ -196,7 +219,7 @@ The `vercel.json` config handles:
 - Setting `DEMO_ONLY=1` environment variable
 - Proper build command execution
 
-**Important**: On Vercel, the SQLite database is ephemeral. Each deployment starts fresh. This is acceptable for demo purposes. For production, use a persistent database like PostgreSQL.
+**Important**: use a hosted PostgreSQL database on Vercel (the schema and migrations are PostgreSQL; a `file:` SQLite URL will not work). Set `DATABASE_URL` to its connection string and run `npx prisma migrate deploy` against it.
 
 ### Access Demo
 

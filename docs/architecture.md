@@ -24,7 +24,7 @@ flowchart LR
     SCHEMAS[Zod Schemas]
   end
 
-  subgraph DB[(SQLite + Prisma)]
+  subgraph DB[(PostgreSQL + Prisma)]
     SESSION[Session]
     OBS[Observation]
     PLANM[Plan]
